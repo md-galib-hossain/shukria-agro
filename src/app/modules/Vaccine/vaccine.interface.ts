@@ -9,6 +9,7 @@ interface IVaccine {
   info?: string;
   createdAt?: Date;
   updatedAt?: Date;
+  isDeleted: boolean
 }
 
 export default IVaccine;

@@ -5,6 +5,11 @@ const cowCategorySchema = new Schema<ICategory>(
   {
     name: { type: String, required: true },
     description: { type: String, required: true },
+
+    isDeleted: {
+      type: Boolean,
+      default: false,
+    },
   },
   { timestamps: true }
 );

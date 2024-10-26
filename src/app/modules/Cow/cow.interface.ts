@@ -10,7 +10,8 @@ export interface IVaccination {
 
 interface ICow {
   _id?: ObjectId;
-
+  cowId?: string;
+isDeleted: boolean;
   name: string;
   dateOfBirth: Date;
   sex: "Male" | "Female";

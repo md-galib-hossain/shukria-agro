@@ -8,5 +8,6 @@ interface ICategory {
   description: string; 
   createdAt?: Date; 
   updatedAt?: Date;
+  isDeleted: boolean
 }
 export default ICategory;

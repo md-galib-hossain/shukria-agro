@@ -6,7 +6,12 @@ const lactationSchema = new Schema<ILactation>(
     cowId: { type: Schema.Types.ObjectId, ref: 'Cow', required: true },
     lactationNumber: { type: Number, required: true },
     lactationDate: { type: Date, required: true },
-    milkYield: { type: Number, default: 0 } 
+    milkYield: { type: Number, default: 0 } ,
+    isDeleted: {
+      type: Boolean,
+      default:false
+    }
+ 
   },
   { timestamps: true }
 );

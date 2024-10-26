@@ -12,6 +12,7 @@ interface IPregnancy {
   deliveryStatus?: 'Not Due' | 'Due Soon' | 'Delivered';
   createdAt?: Date;
   updatedAt?: Date;
+  isDeleted: boolean
 }
 
 export default IPregnancy;

@@ -9,7 +9,8 @@ interface ILactation {
   lactationDate: Date; 
   milkYield?: number; 
   createdAt?: Date; 
-  updatedAt?: Date; 
+  updatedAt?: Date;
+  isDeleted: boolean 
 }
 
 export default ILactation;

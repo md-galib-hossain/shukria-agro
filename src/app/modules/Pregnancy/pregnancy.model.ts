@@ -9,6 +9,11 @@ const pregnancySchema = new Schema<IPregnancy>(
     checkedDate: { type: Date }, 
     semenInfo: { type: String }, 
     deliveryStatus: { type: String, enum: ['Not Due', 'Due Soon', 'Delivered'], default: 'Not Due' }, 
+ 
+    isDeleted: {
+      type: Boolean,
+      default:false
+    }
   },
   { timestamps: true }
 );
