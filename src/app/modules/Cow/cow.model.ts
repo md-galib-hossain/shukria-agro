@@ -47,11 +47,14 @@ const cowSchema = new Schema<ICow>({
   },
   lactations: [{
     type: Schema.Types.ObjectId,
-    ref: "Lactation"
+    ref: "Lactation",
+    default: null
   }],
   pregnancyRecords: [{
     type: Schema.Types.ObjectId,
-    ref: "Pregnancy"
+    ref: "Pregnancy",
+    default: null
+
   }]
 }, { timestamps: true }); 
 
