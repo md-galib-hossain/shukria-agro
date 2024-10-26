@@ -9,13 +9,15 @@ export interface IVaccination {
 }
 
 interface ICow {
+  _id?: ObjectId;
+
   name: string;
   dateOfBirth: Date;
   sex: "Male" | "Female";
   categoryId: ObjectId;
   sire?: ObjectId;
   dam?: ObjectId;
-  vaccinations: IVaccination[]; 
+  vaccinations: IVaccination[];
   currentPregnancyStatus: boolean;
   lactations: ObjectId[];
   pregnancyRecords: ObjectId[];
