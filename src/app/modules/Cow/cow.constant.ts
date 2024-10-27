@@ -1,1 +1,1 @@
-export const cowSex= ['Male', 'Female']
+export const cowSex= ['Male', 'Female'] as const
