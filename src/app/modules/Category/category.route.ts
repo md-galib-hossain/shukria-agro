@@ -5,10 +5,23 @@ import { CategoryValidation } from "./category.validation";
 import { softDeleteSchema } from "../Cow/cow.validation";
 
 const router = Router();
-router.post("/", validateRequest(CategoryValidation.createCategorySchema),CategoryController.createCategory);
+router.post(
+  "/",
+  validateRequest(CategoryValidation.createCategorySchema),
+  CategoryController.createCategory
+);
 router.get("/", CategoryController.getAllCategories);
 router.get("/", CategoryController.getSingleCategory);
-router.patch("/softdelete/:id", validateRequest(softDeleteSchema),CategoryController.softDeleteCategory);
+router.patch(
+  "/softdelete/:id",
+  validateRequest(softDeleteSchema),
+  CategoryController.softDeleteCategory
+);
+router.patch(
+  "/:id",
+  validateRequest(CategoryValidation.updateCategorySchema),
+  CategoryController.updateCategory
+);
 router.delete("/:id", CategoryController.hardDeleteCategory);
 
-export const CategoryRoutes = router
+export const CategoryRoutes = router;

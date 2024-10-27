@@ -57,10 +57,21 @@ const hardDeleteCategory = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
+const updateCategory = catchAsync(async (req: Request, res: Response) => {
+  const { id } = req.params;
+  await CategoryService.updateCategory(id,req.body);
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: "Category updated successfully",
+    data: null,
+  });
+});
+
 export const CategoryController = {
   createCategory,
   getAllCategories,
   getSingleCategory,
   softDeleteCategory,
-  hardDeleteCategory,
+  hardDeleteCategory,updateCategory
 };

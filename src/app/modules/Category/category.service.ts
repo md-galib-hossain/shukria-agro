@@ -25,8 +25,14 @@ await Category.findByIdAndDelete(id);
 return null
 };
 
+const updateCategory =async(id: string,data:Partial<ICategory>)=>{
+const exists = await Category.findById(id)
+if(!exists) throw new AppError(httpStatus.NOT_FOUND,'Category not found')
+const result = await Category.findByIdAndUpdate(id,data)
+return result
+}
 export const CategoryService = {
   createCategory,
   getAllCategories,
-  getSingleCategory,softDeleteCategory,hardDeleteCategory
+  getSingleCategory,softDeleteCategory,hardDeleteCategory,updateCategory
 };
