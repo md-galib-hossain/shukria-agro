@@ -89,7 +89,7 @@ const updateCow = async (id: string, data: Partial<ICow>) => {
             if (existingVaccinationIndex === -1) {
               throw new AppError(httpStatus.NOT_FOUND, `No vaccination found with ID: ${vaccinationId}`);
             }
-
+         
             cow.vaccinations[existingVaccinationIndex] = {
               ...cow.vaccinations[existingVaccinationIndex],
               vaccineId,
@@ -102,12 +102,19 @@ const updateCow = async (id: string, data: Partial<ICow>) => {
           }
         });
       } else if (key === "lactations") {
-        const newLactations = (value as ICow["lactations"]).filter(
-          (lactationId) => !cow.lactations.includes(lactationId)
-        );
-        cow.lactations.push(...newLactations);
+        (value as ICow["lactations"]).forEach((lactationId) => {
+          if (cow.lactations.includes(lactationId)) {
+            throw new AppError(httpStatus.CONFLICT, `Lactation ID ${lactationId} already exists`);
+          }
+          cow.lactations.push(lactationId);
+        });
       } else if (key === "pregnancyRecords") {
-        cow.pregnancyRecords = value as ICow["pregnancyRecords"];
+        (value as ICow["pregnancyRecords"]).forEach((pregnancyRecordId) => {
+          if (cow.pregnancyRecords.includes(pregnancyRecordId)) {
+            throw new AppError(httpStatus.CONFLICT, `Pregnancy Record ID ${pregnancyRecordId} already exists`);
+          }
+          cow.pregnancyRecords.push(pregnancyRecordId);
+        });
       }
     } else {
       (cow as any)[key] = value;
@@ -118,6 +125,7 @@ const updateCow = async (id: string, data: Partial<ICow>) => {
 
   return cow;
 };
+
 
 
 
