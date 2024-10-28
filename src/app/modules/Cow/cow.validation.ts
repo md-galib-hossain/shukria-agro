@@ -23,6 +23,22 @@ const createCowSchema = z.object({
     isDeleted: z.boolean().optional(),
   }),
 });
+const updateCowSchema = z.object({
+  body: z.object({
+    name: z.string().optional(),
+    cowId: z.string().optional(),
+    dateOfBirth: z.string().optional(),
+    sex: z.enum(cowSex).optional(),
+    categoryId: z.string().optional(),
+    sire: z.string().optional().nullable(),
+    dam: z.string().optional().nullable(),
+    vaccinations: z.array(vaccinationSchema).optional(),
+    currentPregnancyStatus: z.boolean().optional(),
+    lactations: z.array(z.string()).optional(),
+    pregnancyRecords: z.array(z.string()).optional(),
+    isDeleted: z.boolean().optional(),
+  }),
+});
 
 export const softDeleteSchema= z.object({
     body:z.object({
@@ -30,4 +46,4 @@ export const softDeleteSchema= z.object({
     })
 })
 
-export const CowValidation = { createCowSchema };
+export const CowValidation = { createCowSchema ,updateCowSchema};

@@ -15,12 +15,13 @@ const createVaccine = catchAsync(async (req: Request, res: Response) => {
 });
 
 const getAllVaccines = catchAsync(async (req: Request, res: Response) => {
-  const result = await VaccineService.getAllVaccines();
+  const data = await VaccineService.getAllVaccines(req.query);
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
     message: "Vaccines retrieved successfully",
-    data: result,
+    data: data.result,
+    meta: data.meta
   });
 });
 

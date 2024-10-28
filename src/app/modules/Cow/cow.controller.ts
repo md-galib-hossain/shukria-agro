@@ -13,14 +13,25 @@ const createCow = catchAsync(async (req, res) => {
     data: result,
   });
 });
+const updateCow = catchAsync(async (req, res) => {
+  const {id} = req.params
+  const result = await CowService.updateCow(id,req.body);
+  sendResponse(res, {
+    statusCode: httpStatus.CREATED,
+    success: true,
+    message: "Cow updated successfully",
+    data: result,
+  });
+});
 
 const getAllCows = catchAsync(async (req, res) => {
-  const result = await CowService.getAllCows();
+  const data = await CowService.getAllCows(req.query);
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
     message: "All cows retrieved successfully",
-    data: result,
+    data: data.result,
+    meta: data.meta
   });
 });
 
@@ -59,5 +70,5 @@ export const CowController = {
   getAllCows,
   getSingleCow,
   softDeleteCow,
-  hardDeleteCow,
+  hardDeleteCow,updateCow
 };
