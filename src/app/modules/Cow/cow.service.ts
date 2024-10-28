@@ -1,11 +1,13 @@
 import { Types } from "mongoose";
-import ICow from "./cow.interface";
+import ICow, { IVaccination } from "./cow.interface";
 import { Cow } from "./cow.model";
 import AppError from "../../errors/AppError";
 import httpStatus from "http-status";
 import QueryBuilder from "../../builder/queryBuilder";
 import { cowSearchableFields } from "./cow.constant";
-
+interface IVaccinationWithId extends IVaccination {
+  vaccinationId?: string; 
+}
 const createCow = async (data: ICow) => {
   console.log(data);
   const result = await Cow.create(data);
@@ -76,9 +78,34 @@ const updateCow = async (id: string, data: Partial<ICow>) => {
 
     if (Array.isArray(value)) {
       if (key === "vaccinations") {
-        cow.vaccinations = value as ICow["vaccinations"];
+        value.forEach((newVaccination) => {
+          const { vaccinationId, vaccineId, vaccinatedDate, nextVaccinationDate, isDeleted } = newVaccination as IVaccinationWithId;
+
+          if (vaccinationId) {
+            const existingVaccinationIndex = cow.vaccinations.findIndex(
+              (vaccination) => vaccination._id!.toString() === vaccinationId
+            );
+
+            if (existingVaccinationIndex === -1) {
+              throw new AppError(httpStatus.NOT_FOUND, `No vaccination found with ID: ${vaccinationId}`);
+            }
+
+            cow.vaccinations[existingVaccinationIndex] = {
+              ...cow.vaccinations[existingVaccinationIndex],
+              vaccineId,
+              vaccinatedDate,
+              nextVaccinationDate,
+              isDeleted 
+            };
+          } else {
+            cow.vaccinations.push({ vaccineId, vaccinatedDate, nextVaccinationDate, isDeleted: false });
+          }
+        });
       } else if (key === "lactations") {
-        cow.lactations = value as ICow["lactations"];
+        const newLactations = (value as ICow["lactations"]).filter(
+          (lactationId) => !cow.lactations.includes(lactationId)
+        );
+        cow.lactations.push(...newLactations);
       } else if (key === "pregnancyRecords") {
         cow.pregnancyRecords = value as ICow["pregnancyRecords"];
       }
@@ -91,6 +118,12 @@ const updateCow = async (id: string, data: Partial<ICow>) => {
 
   return cow;
 };
+
+
+
+
+
+
 export const CowService = {
   createCow,
   getAllCows,

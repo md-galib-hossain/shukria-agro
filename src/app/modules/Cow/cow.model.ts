@@ -6,6 +6,7 @@ const vaccinationSchema = new Schema<IVaccination>({
   vaccineId: { type: Schema.Types.ObjectId, ref: "Vaccine", required: true },
   vaccinatedDate: { type: Date, required: true },
   nextVaccinationDate: { type: Date },
+  isDeleted: {type: Boolean, default: false}
 });
 
 const cowSchema = new Schema<ICow>(

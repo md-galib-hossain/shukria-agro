@@ -3,8 +3,8 @@ import { cowSex } from "./cow.constant";
 
 const vaccinationSchema = z.object({
   vaccineId: z.string({ required_error: "Vaccine ID is required" }).min(1),
-  vaccinatedDate: z.date({ required_error: "Vaccinated date is required" }),
-  nextVaccinationDate: z.date().optional(),
+  vaccinatedDate: z.string({ required_error: "Vaccinated date is required" }),
+  nextVaccinationDate: z.string().optional(),
 });
 
 const createCowSchema = z.object({

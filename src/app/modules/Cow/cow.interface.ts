@@ -3,9 +3,11 @@ import { Types } from "mongoose";
 type ObjectId = Types.ObjectId;
 
 export interface IVaccination {
+  _id?: ObjectId;
   vaccineId: ObjectId;
   vaccinatedDate: Date;
   nextVaccinationDate?: Date;
+  isDeleted: boolean
 }
 
 interface ICow {
