@@ -9,9 +9,9 @@ const vaccinationSchema = z.object({
 
 const createCowSchema = z.object({
   body: z.object({
-    name: z.string().optional(),
-    cowId: z.string().optional(),
-    dateOfBirth: z.date({ required_error: "Date of birth is required" }),
+    name: z.string({ required_error: "Name is required" }),
+    cowId: z.string({ required_error: "Cow Id is required" }),
+    dateOfBirth: z.string({ required_error: "Date of birth is required" }),
     sex: z.enum(cowSex, { required_error: "Sex is required" }),
     categoryId: z.string({ required_error: "Category ID is required" }).min(1),
     sire: z.string().optional().nullable(),

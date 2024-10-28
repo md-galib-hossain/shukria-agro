@@ -4,6 +4,7 @@ import { CowService } from "./cow.service";
 import httpStatus from "http-status";
 
 const createCow = catchAsync(async (req, res) => {
+  console.log(req.body)
   const result = await CowService.createCow(req.body);
   sendResponse(res, {
     statusCode: httpStatus.CREATED,
