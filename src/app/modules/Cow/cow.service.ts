@@ -15,6 +15,8 @@ const createCow = async (data: ICow) => {
   return result;
 };
 
+
+
 const getAllCows = async (query: Record<string, unknown>) => {
   // const result = await Cow.find({ isDeleted: { $ne: true } }).select("-isDeleted");
   // return result;

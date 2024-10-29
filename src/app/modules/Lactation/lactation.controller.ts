@@ -53,11 +53,21 @@ const hardDeleteLactation = catchAsync(async (req: Request, res: Response) => {
     data: null,
   });
 });
+const updateLactation = catchAsync(async (req: Request, res: Response) => {
+  const {id} = req.params
+ const result = await LactationService.updateLactation(id,req.body);
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: "Lactation record updated",
+    data: result,
+  });
+});
 
 export const LactationController = {
   createLactation,
   getAllLactations,
   getSingleLactation,
   softDeleteLactation,
-  hardDeleteLactation,
+  hardDeleteLactation,updateLactation
 };
