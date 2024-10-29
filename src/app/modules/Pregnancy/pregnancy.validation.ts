@@ -11,5 +11,16 @@ const createPregnancySchema = z.object({
     isDeleted: z.boolean().optional().default(false),
   }),
 });
+const updatedPregnancySchema = z.object({
+  body: z.object({
+    cowId: z.string().optional(),
+    aiState: z.boolean().optional(),
+    checkStatus: z.enum(['Pending', 'Confirmed', 'Failed']).optional(),
+    checkedDate: z.date().optional(),
+    semenInfo: z.string().optional(),
+    deliveryStatus: z.enum(['Not Due', 'Due Soon', 'Delivered']).optional(),
+    isDeleted: z.boolean().optional(),
+  }),
+});
 
-export const PregnancyValidation = { createPregnancySchema };
+export const PregnancyValidation = { createPregnancySchema,updatedPregnancySchema };

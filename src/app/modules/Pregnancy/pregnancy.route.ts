@@ -11,6 +11,11 @@ router.post(
   validateRequest(PregnancyValidation.createPregnancySchema),
   PregnancyController.createPregnancy
 );
+router.patch(
+  "/:id",
+  validateRequest(PregnancyValidation.updatedPregnancySchema),
+  PregnancyController.createPregnancy
+);
 router.get("/", PregnancyController.getAllPregnancies);
 router.get("/:id", PregnancyController.getSinglePregnancy);
 router.patch(

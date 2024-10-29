@@ -13,6 +13,16 @@ const createPregnancy = catchAsync(async (req: Request, res: Response) => {
     data: result,
   });
 });
+const updatePregnancy = catchAsync(async (req: Request, res: Response) => {
+  const {id} = req.params
+  const result = await PregnancyService.updatePregnancy(id,req.body);
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: "Pregnancy record updated",
+    data: result,
+  });
+});
 
 const getAllPregnancies = catchAsync(async (req: Request, res: Response) => {
   const result = await PregnancyService.getAllPregnancies();
@@ -62,5 +72,5 @@ export const PregnancyController = {
   getAllPregnancies,
   getSinglePregnancy,
   softDeletePregnancy,
-  hardDeletePregnancy,
+  hardDeletePregnancy,updatePregnancy
 };
