@@ -44,10 +44,23 @@ const hardDeleteVaccine = async (id: string) => {
   return null;
 };
 
+const updateVaccine = async (id: string, data: Partial<IVaccine>) => {
+  if (!Types.ObjectId.isValid(id))
+    throw new AppError(httpStatus.BAD_REQUEST, "Invalid ID format");
+  const vaccine = await Vaccine.findOne({ _id: id, isDeleted: { $ne: true } });
+  if (!vaccine)
+    throw new AppError(httpStatus.NOT_FOUND, "Vaccine record not found");
+  Object.keys(data).forEach((key) => {
+    (vaccine as any)[key] = data[key as keyof IVaccine];
+  });
+  await vaccine.save();
+  return vaccine;
+};
 export const VaccineService = {
   createVaccine,
   getAllVaccines,
   getSingleVaccine,
   softDeleteVaccine,
   hardDeleteVaccine,
+  updateVaccine,
 };

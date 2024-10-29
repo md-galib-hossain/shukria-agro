@@ -7,6 +7,7 @@ import { softDeleteSchema } from "../Cow/cow.validation";
 const router = Router();
 
 router.post("/",validateRequest(VaccineValidation.createVaccineSchema), VaccineController.createVaccine);
+router.patch("/:id",validateRequest(VaccineValidation.updateVaccineSchema), VaccineController.updateVaccine);
 router.get("/", VaccineController.getAllVaccines);
 router.get("/:id", VaccineController.getSingleVaccine);
 router.patch("/softdelete/:id", validateRequest(softDeleteSchema),VaccineController.softDeleteVaccine);

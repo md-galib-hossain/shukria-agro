@@ -21,7 +21,7 @@ const getAllVaccines = catchAsync(async (req: Request, res: Response) => {
     success: true,
     message: "Vaccines retrieved successfully",
     data: data.result,
-    meta: data.meta
+    meta: data.meta,
   });
 });
 
@@ -55,10 +55,21 @@ const hardDeleteVaccine = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
+const updateVaccine = catchAsync(async (req, res) => {
+  const { id } = req.params;
+  const result = await VaccineService.updateVaccine(id, req.body);
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: "Vaccine updated successfully",
+    data: result,
+  });
+});
+
 export const VaccineController = {
   createVaccine,
   getAllVaccines,
   getSingleVaccine,
   softDeleteVaccine,
-  hardDeleteVaccine,
+  hardDeleteVaccine,updateVaccine
 };

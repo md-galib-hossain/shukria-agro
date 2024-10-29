@@ -8,5 +8,13 @@ const createVaccineSchema = z.object({
     isDeleted: z.boolean().optional().default(false),
   }),
 });
+const updateVaccineSchema = z.object({
+  body: z.object({
+    name: z.string().optional(),
+    interval: z.number().int().optional(),
+    info: z.string().optional(),
+    isDeleted: z.boolean().optional(),
+  }),
+});
 
-export const VaccineValidation = { createVaccineSchema };
+export const VaccineValidation = { createVaccineSchema,updateVaccineSchema };
