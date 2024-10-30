@@ -40,10 +40,6 @@ const updateCowSchema = z.object({
   }),
 });
 
-export const softDeleteSchema= z.object({
-    body:z.object({
-        isDeleted: z.boolean().optional(),
-    })
-})
+
 
 export const CowValidation = { createCowSchema ,updateCowSchema};

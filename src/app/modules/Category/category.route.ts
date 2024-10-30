@@ -2,7 +2,6 @@ import { Router } from "express";
 import { CategoryController } from "./category.controller";
 import validateRequest from "../../middlewares/validateRequest";
 import { CategoryValidation } from "./category.validation";
-import { softDeleteSchema } from "../Cow/cow.validation";
 
 const router = Router();
 router.post(
@@ -14,7 +13,7 @@ router.get("/", CategoryController.getAllCategories);
 router.get("/", CategoryController.getSingleCategory);
 router.patch(
   "/softdelete/:id",
-  validateRequest(softDeleteSchema),
+
   CategoryController.softDeleteCategory
 );
 router.patch(
