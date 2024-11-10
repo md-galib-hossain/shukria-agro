@@ -4,7 +4,7 @@ import { CowService } from "./cow.service";
 import httpStatus from "http-status";
 
 const createCow = catchAsync(async (req, res) => {
-  console.log(req.body)
+  console.log(req.body);
   const result = await CowService.createCow(req.body);
   sendResponse(res, {
     statusCode: httpStatus.CREATED,
@@ -14,8 +14,8 @@ const createCow = catchAsync(async (req, res) => {
   });
 });
 const updateCow = catchAsync(async (req, res) => {
-  const {id} = req.params
-  const result = await CowService.updateCow(id,req.body);
+  const { id } = req.params;
+  const result = await CowService.updateCow(id, req.body);
   sendResponse(res, {
     statusCode: httpStatus.CREATED,
     success: true,
@@ -31,7 +31,18 @@ const getAllCows = catchAsync(async (req, res) => {
     success: true,
     message: "All cows retrieved successfully",
     data: data.result,
-    meta: data.meta
+    meta: data.meta,
+  });
+});
+
+const getAllCowsWithoutSpecific = catchAsync(async (req, res) => {
+  const { id } = req.params;
+  const result = await CowService.getAllCowsWithoutSpecific(id);
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: "All cows retrieved successfully",
+    data: result,
   });
 });
 
@@ -70,5 +81,7 @@ export const CowController = {
   getAllCows,
   getSingleCow,
   softDeleteCow,
-  hardDeleteCow,updateCow
+  hardDeleteCow,
+  updateCow,
+  getAllCowsWithoutSpecific,
 };

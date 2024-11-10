@@ -3,7 +3,7 @@ import IPregnancy from "./pregnancy.interface";
 
 const pregnancySchema = new Schema<IPregnancy>(
   {
-    cowId: { type: Schema.Types.ObjectId, ref: 'Cow', required: true },
+    cowUID: { type: Schema.Types.ObjectId, ref: 'Cow', required: true },
     aiState: { type: Boolean, default: false }, 
     checkStatus: { type: String, enum: ['Pending', 'Confirmed', 'Failed'], default: 'Pending' },
     checkedDate: { type: Date }, 

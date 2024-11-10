@@ -1,12 +1,33 @@
-import { Types } from "mongoose";
+import mongoose, { Types } from "mongoose";
 import IPregnancy from "./pregnancy.interface";
 import { Pregnancy } from "./pregnancy.model";
 import AppError from "../../errors/AppError";
 import httpStatus from "http-status";
+import { Cow } from "../Cow/cow.model";
 
 const createPregnancy = async (data: IPregnancy) => {
-  const result = await Pregnancy.create(data);
-  return result;
+  const { cowUID } = data;
+  const session = await mongoose.startSession();
+  session.startTransaction();
+
+  try {
+    const cow = await Cow.findById(cowUID);
+    if (!cow) {
+      throw new AppError(httpStatus.NOT_FOUND, "Cow not found");
+    }
+
+    const pregnancy = await Pregnancy.create([data]);
+    cow.pregnancyRecords.push(pregnancy[0]._id);
+    await cow.save();
+
+    await session.commitTransaction();
+    return pregnancy[0];
+  } catch (error) {
+    await session.abortTransaction();
+    throw error;
+  } finally {
+    session.endSession();
+  }
 };
 
 const getAllPregnancies = async () => {
@@ -29,8 +50,27 @@ const softDeletePregnancy = async (id: string) => {
 };
 
 const hardDeletePregnancy = async (id: string) => {
-  await Pregnancy.findByIdAndDelete(id);
-  return null;
+  const session = await mongoose.startSession();
+  session.startTransaction();
+
+  try {
+    const pregnancy = await Pregnancy.findById(id);
+    if (!pregnancy) throw new AppError(httpStatus.NOT_FOUND, "Pregnancy not found");
+
+    await Pregnancy.findByIdAndDelete(id);
+
+    await Cow.findByIdAndUpdate(pregnancy.cowUID, {
+      $pull: { pregnancyRecords: pregnancy._id }
+    });
+
+    await session.commitTransaction();
+    return null;
+  } catch (error) {
+    await session.abortTransaction();
+    throw error;
+  } finally {
+    session.endSession();
+  }
 };
 const updatePregnancy = async (id: string, data: Partial<IPregnancy>) => {
   if (!Types.ObjectId.isValid(id))
