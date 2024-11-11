@@ -21,7 +21,7 @@ const createMilkRecord = async (data: IMilkRecord) => {
 const getAllMilkRecords = async (query: Record<string, unknown>) => {
   const milkRecordQuery = new QueryBuilder(
     MilkRecord.find()
-      .populate({ path: "cowId", select: "name cowId" })
+      .populate({ path: "cowOID", select: "name cowOID" })
       .populate({ path: "lactationId", select: "lactationNumber" }),
     query
   )

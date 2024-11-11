@@ -3,8 +3,8 @@ import { Types } from "mongoose";
 type ObjectId = Types.ObjectId;
 
 interface IPregnancy {
-  _id?: ObjectId;
-  cowId: ObjectId; 
+  _id: ObjectId;
+  cowOID: ObjectId; 
   aiState?: boolean; 
   checkStatus?: 'Pending' | 'Confirmed' | 'Failed';
   checkedDate?: Date; 

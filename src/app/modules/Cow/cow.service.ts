@@ -6,7 +6,7 @@ import httpStatus from "http-status";
 import QueryBuilder from "../../builder/queryBuilder";
 import { cowSearchableFields } from "./cow.constant";
 interface IVaccinationWithId extends IVaccination {
-  vaccinationId?: string; 
+  vaccinationId?: string;
 }
 const createCow = async (data: ICow) => {
   console.log(data);
@@ -14,8 +14,6 @@ const createCow = async (data: ICow) => {
 
   return result;
 };
-
-
 
 const getAllCows = async (query: Record<string, unknown>) => {
   // const result = await Cow.find({ isDeleted: { $ne: true } }).select("-isDeleted");
@@ -42,6 +40,12 @@ const getAllCows = async (query: Record<string, unknown>) => {
     meta,
   };
 };
+const getAllCowsWithoutSpecific = async (id: string) => {
+  const result = await Cow.find({ _id: { $ne: id } });
+  return result;
+};
+
+
 
 const getSingleCow = async (id: string) => {
   if (!Types.ObjectId.isValid(id))
@@ -81,7 +85,13 @@ const updateCow = async (id: string, data: Partial<ICow>) => {
     if (Array.isArray(value)) {
       if (key === "vaccinations") {
         value.forEach((newVaccination) => {
-          const { vaccinationId, vaccineId, vaccinatedDate, nextVaccinationDate, isDeleted } = newVaccination as IVaccinationWithId;
+          const {
+            vaccinationId,
+            vaccineId,
+            vaccinatedDate,
+            nextVaccinationDate,
+            isDeleted,
+          } = newVaccination as IVaccinationWithId;
 
           if (vaccinationId) {
             const existingVaccinationIndex = cow.vaccinations.findIndex(
@@ -89,31 +99,45 @@ const updateCow = async (id: string, data: Partial<ICow>) => {
             );
 
             if (existingVaccinationIndex === -1) {
-              throw new AppError(httpStatus.NOT_FOUND, `No vaccination found with ID: ${vaccinationId}`);
+              throw new AppError(
+                httpStatus.NOT_FOUND,
+                `No vaccination found with ID: ${vaccinationId}`
+              );
             }
-         
+
             cow.vaccinations[existingVaccinationIndex] = {
               ...cow.vaccinations[existingVaccinationIndex],
               vaccineId,
               vaccinatedDate,
               nextVaccinationDate,
-              isDeleted 
+              isDeleted,
             };
           } else {
-            cow.vaccinations.push({ vaccineId, vaccinatedDate, nextVaccinationDate, isDeleted: false });
+            cow.vaccinations.push({
+              vaccineId,
+              vaccinatedDate,
+              nextVaccinationDate,
+              isDeleted: false,
+            });
           }
         });
       } else if (key === "lactations") {
         (value as ICow["lactations"]).forEach((lactationId) => {
           if (cow.lactations.includes(lactationId)) {
-            throw new AppError(httpStatus.CONFLICT, `Lactation ID ${lactationId} already exists`);
+            throw new AppError(
+              httpStatus.CONFLICT,
+              `Lactation ID ${lactationId} already exists`
+            );
           }
           cow.lactations.push(lactationId);
         });
       } else if (key === "pregnancyRecords") {
         (value as ICow["pregnancyRecords"]).forEach((pregnancyRecordId) => {
           if (cow.pregnancyRecords.includes(pregnancyRecordId)) {
-            throw new AppError(httpStatus.CONFLICT, `Pregnancy Record ID ${pregnancyRecordId} already exists`);
+            throw new AppError(
+              httpStatus.CONFLICT,
+              `Pregnancy Record ID ${pregnancyRecordId} already exists`
+            );
           }
           cow.pregnancyRecords.push(pregnancyRecordId);
         });
@@ -128,15 +152,9 @@ const updateCow = async (id: string, data: Partial<ICow>) => {
   return cow;
 };
 
-
-
-
-
-
-
 export const CowService = {
   createCow,
-  getAllCows,
+  getAllCows,getAllCowsWithoutSpecific,
   getSingleCow,
   softDeleteCow,
   hardDeleteCow,

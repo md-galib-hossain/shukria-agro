@@ -3,7 +3,7 @@ import { Types } from "mongoose";
 type ObjectId = Types.ObjectId;
 
 export interface IMilkRecord {
-  cowId: ObjectId;
+  cowOID: ObjectId;
   lactationId: ObjectId;
   date: Date;
   morningYield: number;
