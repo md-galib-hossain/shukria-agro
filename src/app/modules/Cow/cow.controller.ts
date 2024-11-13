@@ -25,7 +25,7 @@ const updateCow = catchAsync(async (req, res) => {
 });
 
 const getAllCows = catchAsync(async (req, res) => {
-  const data = await CowService.getAllCows(req.query);
+  const data = await CowService.getAllCowsWithQuery(req.query);
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
@@ -37,7 +37,7 @@ const getAllCows = catchAsync(async (req, res) => {
 
 const getAllCowsWithoutSpecific = catchAsync(async (req, res) => {
   const { id } = req.params;
-  const result = await CowService.getAllCowsWithoutSpecific(id);
+  const result = await CowService.getAllCowsExcludingId(id);
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,

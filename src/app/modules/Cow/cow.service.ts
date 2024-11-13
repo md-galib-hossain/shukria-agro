@@ -15,7 +15,7 @@ const createCow = async (data: ICow) => {
   return result;
 };
 
-const getAllCows = async (query: Record<string, unknown>) => {
+const getAllCowsWithQuery = async (query: Record<string, unknown>) => {
   // const result = await Cow.find({ isDeleted: { $ne: true } }).select("-isDeleted");
   // return result;
   const cowQuery = new QueryBuilder(
@@ -40,10 +40,14 @@ const getAllCows = async (query: Record<string, unknown>) => {
     meta,
   };
 };
-const getAllCowsWithoutSpecific = async (id: string) => {
-  const result = await Cow.find({ _id: { $ne: id } });
+const getAllCowsExcludingId = async (id?: string) => {
+  const filter = id && id !== "undefined" ? { _id: { $ne: id } } : {};
+  
+  console.log({ id, filter }); 
+  const result = await Cow.find(filter);
   return result;
 };
+
 
 
 
@@ -154,7 +158,7 @@ const updateCow = async (id: string, data: Partial<ICow>) => {
 
 export const CowService = {
   createCow,
-  getAllCows,getAllCowsWithoutSpecific,
+  getAllCowsWithQuery,getAllCowsExcludingId,
   getSingleCow,
   softDeleteCow,
   hardDeleteCow,
