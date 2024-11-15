@@ -6,7 +6,8 @@ interface ILactation {
   _id?: ObjectId; 
   cowOID: ObjectId; 
   lactationNumber: number; 
-  lactationDate: Date; 
+  lactationStartDate: Date; 
+  lactationEndDate: Date; 
   milkYield?: number; 
   createdAt?: Date; 
   updatedAt?: Date;
