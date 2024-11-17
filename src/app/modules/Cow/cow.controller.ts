@@ -34,6 +34,15 @@ const getAllCows = catchAsync(async (req, res) => {
     meta: data.meta,
   });
 });
+const getAllCowsStats = catchAsync(async (req, res) => {
+  const data = await CowService.getAllCowsStats();
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: "Stats retrieved successfully",
+    data: data,
+  });
+});
 
 const getAllCowsWithoutSpecific = catchAsync(async (req, res) => {
   const { id } = req.params;
@@ -83,5 +92,5 @@ export const CowController = {
   softDeleteCow,
   hardDeleteCow,
   updateCow,
-  getAllCowsWithoutSpecific,
+  getAllCowsWithoutSpecific,getAllCowsStats
 };

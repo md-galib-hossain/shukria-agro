@@ -15,12 +15,13 @@ const createLactation = catchAsync(async (req: Request, res: Response) => {
 });
 
 const getAllLactations = catchAsync(async (req: Request, res: Response) => {
-  const result = await LactationService.getAllLactations();
+  const result = await LactationService.getAllLactations(req.query);
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
     message: "Lactation records retrieved",
-    data: result,
+    data: result.result,
+    meta: result.meta,
   });
 });
 

@@ -3,18 +3,34 @@ import ILactation from "./lactation.interface";
 import { Lactation } from "./lactation.model";
 import AppError from "../../errors/AppError";
 import httpStatus from "http-status";
+import { lactationSearchableFields } from "./lactation.constant";
+import QueryBuilder from "../../builder/queryBuilder";
 
 const createLactation = async (data: ILactation) => {
   const result = await Lactation.create(data);
   return result;
 };
 
-const getAllLactations = async () => {
-  const result = await Lactation.find({ isDeleted: { $ne: true } }).select(
-    "-isDeleted"
-  );
-  return result;
+const getAllLactations = async (query: Record<string, unknown>) => {
+  const lactationQuery = new QueryBuilder(
+    Lactation.find({ isDeleted: { $ne: true } }) .populate({ path: "cowOID", select: "_id cowId name" }),
+    query
+  )
+    .search(lactationSearchableFields) 
+    .filter()
+    .sort()
+    .paginate()
+    .fields();
+  
+  const result = await lactationQuery.modelQuery;
+  const meta = await lactationQuery.countTotal();
+  
+  return {
+    result,
+    meta,
+  };
 };
+
 
 const getSingleLactation = async (id: string) => {
   if (!Types.ObjectId.isValid(id))

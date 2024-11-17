@@ -40,6 +40,31 @@ const getAllCowsWithQuery = async (query: Record<string, unknown>) => {
     meta,
   };
 };
+const getAllCowsStats = async () => {
+  const pregnancyTrueCount = await Cow.countDocuments({ currentPregnancyStatus: true, isDeleted: false });
+
+  const cowsByGender = await Cow.aggregate([
+    { $match: { isDeleted: false } },
+    { $group: { _id: "$sex", count: { $sum: 1 } } },
+  ]);
+
+  const genderStats = cowsByGender.reduce((acc, { _id, count }) => {
+    acc[_id] = count;
+    return acc;
+  }, {});
+
+  const totalCowsCount = await Cow.countDocuments({ isDeleted: false });
+
+  return {
+    pregnancyTrueCount,
+    genderStats: {
+      male: genderStats["Male"] || 0,
+      female: genderStats["Female"] || 0,
+    },
+    totalCowsCount,
+  };
+};
+
 const getAllCowsExcludingId = async (id?: string) => {
   const filter = id && id !== "undefined" ? { _id: { $ne: id } } : {};
   
@@ -162,5 +187,5 @@ export const CowService = {
   getSingleCow,
   softDeleteCow,
   hardDeleteCow,
-  updateCow,
+  updateCow,getAllCowsStats
 };
