@@ -8,7 +8,7 @@ const pregnancySchema = new Schema<IPregnancy>(
     checkStatus: { type: String, enum: ['Pending', 'Confirmed', 'Failed'], default: 'Pending' },
     checkedDate: { type: Date }, 
     semenInfo: { type: String }, 
-    deliveryStatus: { type: String, enum: ['Not Due', 'Due Soon', 'Delivered'], default: 'Not Due' }, 
+    deliveryStatus: { type: String, enum: ['Not-Due', 'Due-Soon', 'Delivered'], default: 'Not-Due' }, 
  
     isDeleted: {
       type: Boolean,

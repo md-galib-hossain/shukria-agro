@@ -5,7 +5,7 @@ const vaccineSchema = new Schema<IVaccine>(
   {
     name: { type: String, required: true },
     interval: { type: Number, required: true },
-    info: { type: String },
+    info: { type: String,default:'No Info' },
     isDeleted: {
       type: Boolean,
       default: false,

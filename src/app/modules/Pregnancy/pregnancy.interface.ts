@@ -9,7 +9,7 @@ interface IPregnancy {
   checkStatus?: 'Pending' | 'Confirmed' | 'Failed';
   checkedDate?: Date; 
   semenInfo?: string; 
-  deliveryStatus?: 'Not Due' | 'Due Soon' | 'Delivered';
+  deliveryStatus?: 'Not-Due' | 'Due-Soon' | 'Delivered';
   createdAt?: Date;
   updatedAt?: Date;
   isDeleted: boolean

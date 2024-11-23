@@ -2,12 +2,12 @@ import { z } from "zod";
 
 const createPregnancySchema = z.object({
   body: z.object({
-    cowOID: z.string({ required_error: "Cow UID is required" }).min(1),
+    cowOID: z.string({ required_error: "Cow OID is required" }).min(1),
     aiState: z.boolean().optional().default(false),
     checkStatus: z.enum(['Pending', 'Confirmed', 'Failed']).optional().default('Pending'),
     checkedDate: z.string().optional(),
     semenInfo: z.string().optional(),
-    deliveryStatus: z.enum(['Not Due', 'Due Soon', 'Delivered']).optional().default('Not Due'),
+    deliveryStatus: z.enum(['Not-Due', 'Due-Soon', 'Delivered']).optional().default('Not-Due'),
     isDeleted: z.boolean().optional().default(false),
   }),
 });
@@ -18,7 +18,7 @@ const updatedPregnancySchema = z.object({
     checkStatus: z.enum(['Pending', 'Confirmed', 'Failed']).optional(),
     checkedDate: z.string().optional(),
     semenInfo: z.string().optional(),
-    deliveryStatus: z.enum(['Not Due', 'Due Soon', 'Delivered']).optional(),
+    deliveryStatus: z.enum(['Not-Due', 'Due-Soon', 'Delivered']).optional(),
     isDeleted: z.boolean().optional(),
   }),
 });
