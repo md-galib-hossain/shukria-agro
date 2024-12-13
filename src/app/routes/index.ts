@@ -4,6 +4,7 @@ import { CowRoutes } from "../modules/Cow/cow.route";
 import { LactationRoutes } from "../modules/Lactation/lactation.route";
 import { PregnancyRoutes } from "../modules/Pregnancy/pregnancy.route";
 import { VaccineRoutes } from "../modules/Vaccine/vaccine.route";
+import { MilkRecordRoutes } from "../modules/MilkRecord/milkrecord.route";
 
 const router = Router()
 const moduleRoutes = [
@@ -26,6 +27,10 @@ const moduleRoutes = [
     {
         path: '/vaccine',
         route: VaccineRoutes
+    },
+    {
+        path: '/milk',
+        route: MilkRecordRoutes
     },
 ]
 

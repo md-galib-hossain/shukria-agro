@@ -7,6 +7,7 @@ import { lactationSearchableFields } from "./lactation.constant";
 import QueryBuilder from "../../builder/queryBuilder";
 
 const createLactation = async (data: ILactation) => {
+  
   const result = await Lactation.create(data);
   return result;
 };
